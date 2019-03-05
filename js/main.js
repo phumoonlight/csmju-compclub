@@ -417,7 +417,7 @@ function getActivityDetailForEdit(activityID) {
         $("[name='edit_activity_detail']").val(result[0].activity_detail);
     }
 
-    callAjax(input, key, getActivityDetailForEdit);
+    callAjax(input, key, getActivityDetail);
 }
 //---------------------------------------------//
 function getActivityImgForEdit(activityID) {
