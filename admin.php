@@ -19,9 +19,9 @@ $admin = new admin();
     <section class="content">
         <div class="content-header">การจัดการชมรม</div><hr>
         <div class="admin-menu">
-            <a href="admin.php?admin_menu=member"> จัดการ ทำเนียบชมรม</a>
-            <a href="admin.php?admin_menu=advisor"> จัดการ อาจารย์ที่ปรีกษา</a>
-            <a href="admin.php?admin_menu=activity">จัดการ โครงการ</a>
+            <a href="admin.php?admin_menu=member"> ทำเนียบชมรม </a>
+            <a href="admin.php?admin_menu=advisor"> อาจารย์ที่ปรึกษา </a>
+            <a href="admin.php?admin_menu=activity"> โครงการและกิจกรรม </a>
         </div>
         <?php $admin->GetContent('admin_menu'); ?>
     </section>

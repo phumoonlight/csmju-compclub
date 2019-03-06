@@ -428,17 +428,15 @@ function getActivityImgForEdit(activityID) {
     key = "ACTIVITY_IMG_FOR_EDIT";
 
     var getActivityImg = function (result) {
-        if (result != "") {
-            for (let i = 0; i < result.length; i++) {
-                let activity_img = "img/" + result[i].img_path;
-                html += "<div class='modal-activity-admin-img-container' data-deleteid='" + result[i].img_ID + "'>"
-                html += "<div class='hover-delete'>ลบ</div>";
-                html += "<img src='" + activity_img + "' >";
-                html += divTagEnd;
-            }
-
-            $(".admin-activity-modal-img").html(html);
+        for (let i = 0; i < result.length; i++) {
+            let activity_img = "img/" + result[i].img_path;
+            html += "<div class='modal-activity-admin-img-container' data-deleteid='" + result[i].img_ID + "'>"
+            html += "<div class='hover-delete'>ลบ</div>";
+            html += "<img src='" + activity_img + "' >";
+            html += divTagEnd;
         }
+
+        $(".admin-activity-modal-img").html(html);
     }
 
     callAjax(input, key, getActivityImg);
