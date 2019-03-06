@@ -39,7 +39,7 @@ if ((window.location.href).includes("index.php")) {
         setInterval(function () {
             randomNumber = Math.floor((Math.random() * parseInt(result.length)));
             (new Image).src = 'img/' + result[randomNumber].img_path;
-        }, 4000);
+        }, 3500);
 
         setInterval(function () {
             targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
