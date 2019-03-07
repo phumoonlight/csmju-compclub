@@ -3,7 +3,7 @@ $database_path = 'src/php/dbconfig.php';
 $navbar_path = 'src/html/navbar.html';
 $head_path = 'src/html/head.html';
 $menu_path = 'src/html/menu.html';
-$footer_path = 'src/html/footer.html';
+$footer_path = 'src/php/footer.php';
 $img_path = 'img/';
 $document_path = 'doc/';
 

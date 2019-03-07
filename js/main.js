@@ -1,6 +1,6 @@
 // initialize
 console.log("CSMJU Computer Club");
-
+console.log("</> by CS #22 : 352 353 354");
 // html tag as variable
 var tableTag = "<table>";
 var theadTag = "<thead>";
@@ -10,6 +10,8 @@ var tdTagEnd = "</td>";
 var divTagEnd = "</div>";
 var trTag = "<tr>";
 var trTagEnd = "</tr>";
+
+// hide menu admin
 
 // activity.php initialize
 if ((window.location.href).includes("activity.php")) {

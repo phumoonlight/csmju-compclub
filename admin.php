@@ -1,6 +1,12 @@
 <?php 
 session_start();
 require 'src/php/main.php';
+require_once 'src/php/auth.php';
+
+if( $_SESSION["Userauth"] != "admin" ) {
+    header("Location: index.php");
+}
+
 $admin = new admin();
 ?>
 
