@@ -54,7 +54,8 @@ class advisor
         $sql = "SELECT cv_personal.Name, cv_personal.picturePersonal, compclub_advisor.advisor_ID, compclub_advisor.year
         FROM compclub_advisor,cv_personal
         WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id
-        AND compclub_advisor.year = '$year'";
+        AND compclub_advisor.year = '$year'
+        GROUP BY cv_personal.Personal_Id";
 
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
@@ -299,9 +300,10 @@ class adminAdvisor
         global $database_path;
         require $database_path;
 
-        $sql = "SELECT cv_personal.Name, cv_personal.picturePersonal, compclub_advisor.advisor_ID, compclub_advisor.year
+        $sql = "SELECT advisor_ID, Name, picturePersonal, year
         FROM compclub_advisor,cv_personal
-        WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id";
+        WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id 
+        GROUP BY cv_personal.Personal_id";
 
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
@@ -332,7 +334,8 @@ class adminAdvisor
         $sql = "SELECT Personal_Id, Name
         FROM cv_personal
         WHERE PersonalStatus_Id = 1
-        AND PersonalType_Id = 1";
+        AND PersonalType_Id = 1
+        GROUP BY Personal_id";
 
         $result = $db->query($sql);
         if ($result->num_rows > 0) {
@@ -569,87 +572,6 @@ class adminActivity
     }
 }
 
-class adminDocument
-{
-
-    public static function getList()
-    {
-        global $database_path;
-        require $database_path;
-
-        $sql = "SELECT document_ID , document_name , date FROM document ORDER BY date DESC";
-        $result = $db->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $document_id = $row["document_ID"];
-                $document_name = $row["document_name"];
-                $timestamp = strtotime($row['date']);
-                $document_date = date('d/m/Y', $timestamp);
-
-                echo '<tr>
-                        <td>' . $document_name . '</td>
-                        <td>' . $document_date . '</td>
-                        <td> <a href="admin.php?admin_menu=document&deletetarget=' . $document_id . '">DELETE</a> </td>
-                    </tr>';
-            }
-        }
-
-        $db->close();
-    }
-
-    public static function setInput($input)
-    {
-        global $database_path, $document_path;
-        if (isset($_POST[$input])) {
-            require $database_path;
-
-            $doc_date = date('Y-m-d');
-
-            $doc_name = $_FILES["doc"]["name"];
-            $doc_tmp = $_FILES['doc']['tmp_name'];
-            $doc_path = $document_path . $doc_name;
-
-            if (file_exists($doc_path)) {
-                return "upload file ไม่สำเร็จ - ชื่อ file ซ้ำกัน";
-            }
-
-            move_uploaded_file($doc_tmp, $doc_path);
-
-            $sql = "INSERT INTO document (document_name, date) VALUES ('$doc_name','$doc_date')";
-            $db->query($sql);
-            $db->close();
-
-            header('Location: admin.php?admin_menu=document');
-        }
-    }
-
-    public static function deleteList()
-    {
-        global $database_path, $document_path;
-        if (isset($_GET['deletetarget'])) {
-            require $database_path;
-
-            $delete_id = $_GET['deletetarget'];
-
-            $sql = "SELECT document_name FROM document WHERE document_ID = $delete_id";
-            $result = $db->query($sql);
-            if ($result->num_rows > 0) {
-                while ($row = $result->fetch_assoc()) {
-                    $doc_path = $document_path . $row["document_name"];
-                    unlink($doc_path);
-                }
-            }
-
-            $sql = "DELETE FROM document WHERE document_ID = $delete_id";
-            $db->query($sql);
-            $db->close();
-
-            header('Location: admin.php?admin_menu=document');
-        }
-    }
-}
-
 function getRandomString($n)
 {
     $string = "";
@@ -671,6 +593,89 @@ function deleteSQL($deleteID)
     $db->query($sql);
     $db->close();
 }
+
+// ----------- obsolete code ------------------------------------------------
+
+// class adminDocument
+// {
+
+//     public static function getList()
+//     {
+//         global $database_path;
+//         require $database_path;
+
+//         $sql = "SELECT document_ID , document_name , date FROM document ORDER BY date DESC";
+//         $result = $db->query($sql);
+
+//         if ($result->num_rows > 0) {
+//             while ($row = $result->fetch_assoc()) {
+//                 $document_id = $row["document_ID"];
+//                 $document_name = $row["document_name"];
+//                 $timestamp = strtotime($row['date']);
+//                 $document_date = date('d/m/Y', $timestamp);
+
+//                 echo '<tr>
+//                         <td>' . $document_name . '</td>
+//                         <td>' . $document_date . '</td>
+//                         <td> <a href="admin.php?admin_menu=document&deletetarget=' . $document_id . '">DELETE</a> </td>
+//                     </tr>';
+//             }
+//         }
+
+//         $db->close();
+//     }
+
+//     public static function setInput($input)
+//     {
+//         global $database_path, $document_path;
+//         if (isset($_POST[$input])) {
+//             require $database_path;
+
+//             $doc_date = date('Y-m-d');
+
+//             $doc_name = $_FILES["doc"]["name"];
+//             $doc_tmp = $_FILES['doc']['tmp_name'];
+//             $doc_path = $document_path . $doc_name;
+
+//             if (file_exists($doc_path)) {
+//                 return "upload file ไม่สำเร็จ - ชื่อ file ซ้ำกัน";
+//             }
+
+//             move_uploaded_file($doc_tmp, $doc_path);
+
+//             $sql = "INSERT INTO document (document_name, date) VALUES ('$doc_name','$doc_date')";
+//             $db->query($sql);
+//             $db->close();
+
+//             header('Location: admin.php?admin_menu=document');
+//         }
+//     }
+
+//     public static function deleteList()
+//     {
+//         global $database_path, $document_path;
+//         if (isset($_GET['deletetarget'])) {
+//             require $database_path;
+
+//             $delete_id = $_GET['deletetarget'];
+
+//             $sql = "SELECT document_name FROM document WHERE document_ID = $delete_id";
+//             $result = $db->query($sql);
+//             if ($result->num_rows > 0) {
+//                 while ($row = $result->fetch_assoc()) {
+//                     $doc_path = $document_path . $row["document_name"];
+//                     unlink($doc_path);
+//                 }
+//             }
+
+//             $sql = "DELETE FROM document WHERE document_ID = $delete_id";
+//             $db->query($sql);
+//             $db->close();
+
+//             header('Location: admin.php?admin_menu=document');
+//         }
+//     }
+// }
 
 // class adminIndex
 // {
