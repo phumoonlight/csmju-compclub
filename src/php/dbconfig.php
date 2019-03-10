@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 $dbHost = "localhost";
-$dbUsername = "jowaveco_csmju";
-$dbPassword = "2nPn74dF";
-$dbName = "jowaveco_csmju";
+$dbUsername = "";
+$dbPassword = "";
+$dbName = "";
 
 // Create database connection
 $db = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
