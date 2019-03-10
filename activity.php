@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'src/php/main.php';
+require_once 'src/php/auth.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'src/php/main.php';
+require_once 'src/php/auth.php';
 $position = array("ประธาน", "รองประธาน", "เลขา", "เหรัญญิก", "ปฏิคม", "ประชาสัมพันธ์", "พัสดุ", "กรรมการ");
 $member = new member();
 $advisor = new advisor();

@@ -1,6 +1,7 @@
 // initialize
 console.log("CSMJU Computer Club");
-
+console.log("</> by CS #22 : 352 353 354");
+console.log("visit https://github.com/phumoonlight/csmju-compclub for source code");
 // html tag as variable
 var tableTag = "<table>";
 var theadTag = "<thead>";
@@ -10,6 +11,8 @@ var tdTagEnd = "</td>";
 var divTagEnd = "</div>";
 var trTag = "<tr>";
 var trTagEnd = "</tr>";
+
+// hide menu admin
 
 // activity.php initialize
 if ((window.location.href).includes("activity.php")) {
@@ -24,7 +27,7 @@ if ((window.location.href).includes("index.php")) {
         url: "src/php/getjson.php",
         dataType: 'json',
         data: {
-            "key": "GET_ACTIVITY_IMG",
+            "key": "ACTIVITY_IMG_FOR_SLIDESHOW",
             "input": "NO_INPUT"
         },
         success: function (result) {
@@ -39,7 +42,7 @@ if ((window.location.href).includes("index.php")) {
         setInterval(function () {
             randomNumber = Math.floor((Math.random() * parseInt(result.length)));
             (new Image).src = 'img/' + result[randomNumber].img_path;
-        }, 4000);
+        }, 3500);
 
         setInterval(function () {
             targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
@@ -101,7 +104,7 @@ $("input#admin-search").keypress(function (key) {
     if (key.which == 13) {
         var input = $(this).val();
         var selector = ".admin-table tbody tr:not(:contains(" + input + "))";
-        $(selector).hide(500);
+        $(selector).hide();
         selector = ".admin-table tbody tr:contains(" + input + ")";
         $(selector).show(500);
     }
@@ -299,15 +302,15 @@ $(document).on("click", "span.activity-link", function () {
         activityID = $(this).attr('data-activity');
 
     $("body").css("overflow-y", "hidden");
-    $(".activity-modal").show(250);
-    $(".modal-container").show(250);
+    $(".activity-modal").fadeIn(250);
+    $(".modal-container").fadeIn(250);
 
     $.ajax({
         type: "POST",
         url: "src/php/getjson.php",
         dataType: 'json',
         data: {
-            "key": "activityDetail",
+            "key": "ACTIVITY_DETAIL",
             "input": activityID
         },
         success: function (result) {
@@ -354,211 +357,210 @@ $(document).on("click", "span.activity-link", function () {
             }
         }
     });
-
-    activeListenerCloseActivityModal();
 });
+//------------------------------------------------------------//
+// hide activity modal
+$(document).on("click", ".activity-modal", function () {
+    $("body").css("overflow-y", "scroll");
+    $(".modal-container").fadeOut(250);
+    $(this).fadeOut(250);
+});
+//------------------------------------------------------------//
+// show activity modal img
+$(document).on("click", ".modal-activity-img", function () {
+    var thisElement, targetElement, attr;
 
-function activeListenerCloseActivityModal() {
-    $(".activity-modal").on("click", function () {
-        var thisElement = $(this);
-        $("body").css("overflow-y", "scroll");
-        $(".modal-container").hide(250);
-        thisElement.off("click");
-        thisElement.hide(250);
-    });
-}
+    thisElement = $(this);
+    targetElement = $(".image-modal");
 
-// admin activity modal function
+    attr = thisElement.children().attr('src');
+    targetElement.children().attr('src', attr);
+    targetElement.fadeIn(250);
+});
+//------------------------------------------------------------//
+// hide activity modal img
+$(document).on("click", ".image-modal", function () {
+    var thisElement;
+
+    thisElement = $(this);
+    thisElement.fadeOut(250);
+});
+//------------------------------------------------------------//
+// show admin activity modal for edit
 $("img[data-edit]").on("click", function () {
-    var htmlImg = "",
-        htmlDoc = "",
-        activityID = $(this).attr('data-edit');
+    var activityID;
+
+    activityID = $(this).attr('data-edit');
 
     $("body").css("overflow-y", "hidden");
-    $(".activity-admin-modal").show(250);
-    $(".modal-container").show(250);
+    $(".activity-admin-modal").fadeIn(250);
+    $(".modal-container").fadeIn(250);
 
-    $.ajax({
-        type: "POST",
-        url: "src/php/getjson.php",
-        dataType: 'json',
-        data: {
-            "key": "activityDetail",
-            "input": activityID
-        },
-        success: function (result) {
-            if (result != "") {
-                var activity_name = result[0].activity_name;
-                var activity_year = "ประจำปีการศีกษา " + (parseInt(result[0].activity_year) + 543);
-                var activity_detail = (result[0].activity_detail != "" ? result[0].activity_detail : "ยังไม่มีรายละเอียดกิจกรรม");
-
-                for (let i = 1; i < result.length; i++) {
-                    let activity_img = "img/" + result[i].img_path;
-                    htmlImg += "<div class='modal-activity-admin-img-container' data-deleteid='" + result[i].img_ID + "'>"
-                    htmlImg += "<div class='hover-delete'>ลบ</div>";
-                    htmlImg += "<img src='" + activity_img + "' >";
-                    htmlImg += divTagEnd;
-                }
-
-                $(".admin-activity-modal-header").html(activity_name);
-                $(".admin-activity-modal-year").html(activity_year);
-                $(".admin-activity-modal-content").html(activity_detail);
-                $(".admin-activity-modal-img").html(htmlImg);
-
-                // active listener
-                activeListenerDeleteActivityImg();
-            }
-        }
-    });
-
-    $.ajax({
-        type: "POST",
-        url: "src/php/getjson.php",
-        dataType: 'json',
-        data: {
-            "key": "ACTIVITY_DOCUMENT",
-            "input": activityID
-        },
-        success: function (result) {
-            var html = "";
-            if (result != "") {
-                for (let i = 0; i < result.length; i++) {
-                    html += "<tr>";
-                    html += "<td>";
-                    html += "<div class='modal-admin-activity-doc'>" + result[i].document_name + "</div>";
-                    html += "</td>";
-                    html += "<td>";
-                    html += "<span data-doc-deleteid='" + result[i].document_ID + "'>ลบ</span>";
-                    html += "</td>";
-                    html += "</tr>";
-                }
-
-                $(".admin-activity-modal-document table tbody").html(html);
-                activeListenerDeleteActivityDocument();
-            } else {
-                $(".admin-activity-modal-document table tbody").html("ไม่มีเอกสาร");
-            }
-        }
-    });
-
-    // active listener
-    activeListenerCloseAdminActivityModal();
+    getActivityDetailForEdit(activityID);
+    getActivityImgForEdit(activityID);
+    getActivityDocumentForEdit(activityID);
 });
-
-function activeListenerOpenActivityImgModal() {
-    $(".modal-activity-img").on("click", function () {
-        var thisElement = $(this);
-        var targetElement = $(".image-modal");
-        targetElement.show();
-        var attr = thisElement.children().attr('src');
-        targetElement.children().attr('src', attr);
-    });
-
-    $(".image-modal").on("click", function () {
-        var thisElement = $(this);
-        thisElement.hide();
-    });
-}
-
-function activeListenerCloseAdminActivityModal() {
-    $(".activity-admin-modal").on("click", function () {
-        $("body").css("overflow-y", "scroll");
-        $(".modal-container").hide(250);
-        $(this).off("click");
-        $(this).hide(250);
-    });
-}
-
-function activeListenerDeleteActivityImg() {
-    $(".modal-activity-admin-img-container").on("click", function () {
-        var thisElement = $(this);
-        var deleteID = thisElement.attr('data-deleteid');
-        var confirmMessage = "ยืนยันการลบรูปนี้";
-
-        if (confirm(confirmMessage)) {
-            $.ajax({
-                type: "POST",
-                url: "src/php/delete.php",
-                data: {
-                    "key": "DELETE_ACTIVITY_IMG",
-                    "input": deleteID
-                },
-                success: function (result) {
-                    if (result) {
-                        thisElement.remove();
-                    }
-                }
-            });
-        }
-    });
-}
-
-function activeListenerDeleteActivityDocument() {
-    $("[data-doc-deleteid]").on("click", function () {
-        var thisElement = $(this);
-        var deleteID = thisElement.attr('data-doc-deleteid');
-        var confirmMessage = "ยืนยันการลบเอกสารนี้";
-
-        if (confirm(confirmMessage)) {
-            $.ajax({
-                type: "POST",
-                url: "src/php/delete.php",
-                data: {
-                    "key": "DELETE_ACTIVITY_DOCUMENT",
-                    "input": deleteID
-                },
-                success: function (result) {
-                    if (result) {
-                        thisElement.parent().parent().remove();
-                    }
-                }
-            });
-        }
-    });
-}
-
-$("img[data-edit]").on("click", function () {
-    var input = $(this).attr('data-edit');
-
-    $.ajax({
-        type: "POST",
-        url: "src/php/getjson.php",
-        dataType: 'json',
-        data: {
-            "key": "edit_activity",
-            "input": input
-        },
-        success: function (result) {
-
-            $("[name='edit_activity_name']").val(result[0].activity_name);
-            $("[name='edit_activity_detail']").val(result[0].activity_detail);
-            $("[name='edit_activity_id']").val(result[0].activity_ID);
-        }
-    });
+//------------------------------------------------------------//
+// hide admin activity modal
+$(document).on("click", ".activity-admin-modal", function () {
+    $("body").css("overflow-y", "scroll");
+    $(".modal-container").fadeOut(250);
+    $(this).fadeOut(250);
 });
+//---------------------------------------------//
+function getActivityDetailForEdit(activityID) {
+    var input, key;
 
+    input = activityID;;
+    key = "EDIT_ACTIVITY";
+
+    var getActivityDetail = function (result) {
+        $("[name='edit_activity_id']").val(result[0].activity_ID);
+        $("[name='edit_activity_name']").val(result[0].activity_name);
+        $("[name='edit_activity_detail']").val(result[0].activity_detail);
+    }
+
+    callAjax(input, key, getActivityDetail);
+}
+//---------------------------------------------//
+function getActivityImgForEdit(activityID) {
+    var input, key, html;
+
+    input = activityID;
+    html = "";
+    key = "ACTIVITY_IMG_FOR_EDIT";
+
+    var getActivityImg = function (result) {
+        for (let i = 0; i < result.length; i++) {
+            let activity_img = "img/" + result[i].img_path;
+            html += "<div class='modal-activity-admin-img-container' data-deleteid='" + result[i].img_ID + "'>"
+            html += "<div class='hover-delete'>ลบ</div>";
+            html += "<img src='" + activity_img + "' >";
+            html += divTagEnd;
+        }
+
+        $(".admin-activity-modal-img").html(html);
+    }
+
+    callAjax(input, key, getActivityImg);
+}
+//---------------------------------------------//
+function getActivityDocumentForEdit(activityID) {
+    var input, key, html;
+
+    input = activityID;
+    html = "";
+    key = "ACTIVITY_DOCUMENT";
+
+    var getActivityDocument = function (result) {
+        if (result != "") {
+            for (let i = 0; i < result.length; i++) {
+                html += "<tr>";
+                html += "<td>";
+                html += "<div class='modal-admin-activity-doc'>" + result[i].document_name + "</div>";
+                html += "</td>";
+                html += "<td>";
+                html += "<span data-doc-deleteid='" + result[i].document_ID + "'>ลบ</span>";
+                html += "</td>";
+                html += "</tr>";
+            }
+
+            $(".admin-activity-modal-document table tbody").html(html);
+        } else {
+            $(".admin-activity-modal-document table tbody").html("ไม่มีเอกสาร");
+        }
+    }
+
+    callAjax(input, key, getActivityDocument);
+}
+//------------------------------------------------------------//
+// delete activity img
+$(document).on("click", ".modal-activity-admin-img-container", function () {
+    var thisElement, input, key, confirmMessage;
+
+    thisElement = $(this);
+    input = thisElement.attr('data-deleteid');
+    confirmMessage = "ยืนยันการลบรูปนี้";
+    key = "DELETE_ACTIVITY_IMG";
+
+    var deleteActivityImg = function (result) {
+        if (result) {
+            thisElement.remove();
+        }
+    }
+
+    if (confirm(confirmMessage)) {
+        callAjaxForDelete(input, key, deleteActivityImg);
+    }
+});
+//------------------------------------------------------------//
+// delete activity document
+$(document).on("click", "[data-doc-deleteid]", function () {
+    var thisElement, input, key, confirmMessage;
+
+    thisElement = $(this);
+    input = thisElement.attr('data-doc-deleteid');
+    confirmMessage = "ยืนยันการลบเอกสารนี้";
+    key = "DELETE_ACTIVITY_DOCUMENT";
+
+    var deleteActivityDocument = function (result) {
+        if (result) {
+            thisElement.parent().parent().remove();
+        }
+    }
+
+    if (confirm(confirmMessage)) {
+        callAjaxForDelete(input, key, deleteActivityDocument);
+    }
+});
+//------------------------------------------------------------//
+// check academic year input duplicate
 $("input[name='year_start']").on("input", function () {
-    var input = $(this).val();
-    input = input.slice(0, 4);
+    var date, year, month, input, key;
 
+    input = $(this).val();
+    input = input.substring(0, 4);
+    key = "CHECK_YEAR_DUPLICATE";
+
+    var checkYearDuplicate = function (result) {
+        if (result != "") {
+            date = result[0].activity_year;
+            year = date.substring(0, 4);
+            month = date.substring(5, 7);
+            $("input[name='year_start']").val(year + "-" + month);
+        }
+    }
+
+    callAjax(input, key, checkYearDuplicate);
+});
+//------------------------------------------------------------//
+// ajax
+function callAjax(input, key, func) {
     $.ajax({
         type: "POST",
         url: "src/php/getjson.php",
         dataType: 'json',
         data: {
-            "key": "CHECK_YEAR_DUPLICATE",
+            "key": key,
             "input": input
         },
         success: function (result) {
-
-            if (result != "") {
-                var date = new Date(result[0].activity_year);
-                var month = date.getMonth() + 1;
-                if (month < 10) {
-                    month = "0" + month.toString();
-                }
-                $("input[name='year_start']").val(input + "-" + month)
-            }
+            func(result);
         }
     });
-});
+}
+//------------------------------------------------------------//
+// ajax for delete
+function callAjaxForDelete(input, key, func) {
+    $.ajax({
+        type: "POST",
+        url: "src/php/delete.php",
+        data: {
+            "key": key,
+            "input": input
+        },
+        success: function (result) {
+            func(result);
+        }
+    });
+}

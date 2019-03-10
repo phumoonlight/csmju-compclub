@@ -11,20 +11,23 @@ switch ($key) {
     case "activity":
         getActivityList();
         break;
-    case "activityDetail":
+    case "ACTIVITY_DETAIL":
         getActivityDetail();
         break;
-    case "edit_activity":
+    case "EDIT_ACTIVITY":
         getActivityDetail();
         break;
     case "CHECK_YEAR_DUPLICATE":
-        getActivityYear();
+        getActivityYearForCheckDuplicate();
         break;
     case "ACTIVITY_DOCUMENT":
         getActivityDocument();
         break;
-    case "GET_ACTIVITY_IMG":
-        getActivityImg();
+    case "ACTIVITY_IMG_FOR_SLIDESHOW":
+        getActivityImgForSlideshow();
+        break;
+    case "ACTIVITY_IMG_FOR_EDIT":
+        getActivityImgForEdit();
 }
 
 function getStudentName()
@@ -109,7 +112,7 @@ function getActivityDetail()
     echo json_encode($result_array);
 }
 
-function getActivityYear()
+function getActivityYearForCheckDuplicate()
 {
     global $database_path;
     require $database_path;
@@ -119,7 +122,8 @@ function getActivityYear()
 
     $sql = "SELECT activity_year
     FROM compclub_activity
-    WHERE activity_year LIKE '%$year%'";
+    WHERE activity_year LIKE '%$year%'
+    LIMIT 1";
 
     $result = $db->query($sql);
     if ($result->num_rows > 0) {
@@ -155,7 +159,7 @@ function getActivityDocument()
     echo json_encode($resultArray);
 }
 
-function getActivityImg()
+function getActivityImgForSlideshow()
 {
     global $database_path;
     require $database_path;
@@ -175,5 +179,29 @@ function getActivityImg()
     }
 
     $db->close();
+    echo json_encode($resultArray);
+}
+
+function getActivityImgForEdit()
+{
+    global $database_path;
+    require $database_path;
+
+    $activityID = $_POST['input'];
+    $resultArray = array();
+
+    $sql = "SELECT img_path,img_ID
+    FROM compclub_img
+    WHERE compclub_img.activity_ID = '$activityID'";
+
+    $result = $db->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            array_push($resultArray, $row);
+        }
+    }
+
+    $db->close();
+
     echo json_encode($resultArray);
 }
