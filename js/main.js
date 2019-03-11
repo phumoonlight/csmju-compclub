@@ -1,6 +1,11 @@
 // initialize
 console.log("CSMJU Computer Club");
 console.log("</> by CS #22 : 352 353 354");
+
+if (window.location.href == "http://csmju.jowave.com/applications/compclub/beta/") {
+    window.location.replace("http://csmju.jowave.com/applications/compclub/beta/index.php");
+}
+
 // html tag as variable
 var tableTag = "<table>";
 var theadTag = "<thead>";
@@ -10,49 +15,30 @@ var tdTagEnd = "</td>";
 var divTagEnd = "</div>";
 var trTag = "<tr>";
 var trTagEnd = "</tr>";
+
+// index.php initialize
+if ((window.location.href).includes("index.php")) {
+    var loopIndexImgByRandom = function (result) {
+        var randomNumber;
+        var targetElement = $("#index-img");
+
+        setInterval(function () {
+            randomNumber = Math.floor((Math.random() * parseInt(result.length)));
+            (new Image).src = 'img/' + result[randomNumber].img_path;
+        }, 3500);
+
+        setInterval(function () {
+            targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
+        }, 5000);
+    };
+
+    callAjax("NO_INPUT", "ACTIVITY_IMG_FOR_SLIDESHOW", loopIndexImgByRandom);
+}
+
 // activity.php initialize
 if ((window.location.href).includes("activity.php")) {
     $("input[name='year']#activity").val("2561");
     getActivityList();
-}
-// index.php initialize
-if ((window.location.href).includes("index.php")) {
-    $.ajax({
-        type: "POST",
-        url: "src/php/getjson.php",
-        dataType: 'json',
-        data: {
-            "key": "ACTIVITY_IMG_FOR_SLIDESHOW",
-            "input": "NO_INPUT"
-        },
-        success: function (result) {
-            loopIndexImgByRandom(result);
-        }
-    });
-}
-
-function loopIndexImgByRandom(result) {
-    var targetElement = $("#index-img"),
-        randomNumber;
-
-    setInterval(function () {
-        randomNumber = Math.floor((Math.random() * parseInt(result.length)));
-        (new Image).src = 'img/' + result[randomNumber].img_path;
-    }, 3500);
-
-    setInterval(function () {
-        targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
-    }, 5000);
-}
-// get parameter function
-function getParameter(param) {
-    var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < url.length; i++) {
-        var urlparam = url[i].split('=');
-        if (urlparam[0] == param) {
-            return urlparam[1];
-        }
-    }
 }
 
 // get student name from input student id
@@ -384,12 +370,20 @@ $(document).on("click", ".image-modal", function (e) {
 
 // activity img view previous 
 $(".previous-img").on("click", function () {
-    $(".modal-activity-img.this-img").prev().trigger('click');
+    if ($(".modal-activity-img.this-img").is(":first-child")) {
+        $(".modal-activity-img").last().trigger('click');
+    } else {
+        $(".modal-activity-img.this-img").prev().trigger('click');
+    }
 });
 
 // activity img view next
 $(".next-img").on("click", function () {
-    $(".modal-activity-img.this-img").next().trigger('click');
+    if ($(".modal-activity-img.this-img").is(":last-child")) {
+        $(".modal-activity-img").first().trigger('click');
+    } else {
+        $(".modal-activity-img.this-img").next().trigger('click');
+    }
 });
 
 // show admin activity modal for edit
@@ -539,7 +533,7 @@ $("input[name='year_start']").on("input", function () {
 
     callAjax(input, key, checkYearDuplicate);
 });
-//------------------------------------------------------------//
+
 // ajax
 function callAjax(input, key, func) {
     $.ajax({
@@ -555,7 +549,7 @@ function callAjax(input, key, func) {
         }
     });
 }
-//------------------------------------------------------------//
+
 // ajax for delete
 function callAjaxForDelete(input, key, func) {
     $.ajax({
@@ -569,4 +563,15 @@ function callAjaxForDelete(input, key, func) {
             func(result);
         }
     });
+}
+
+// get url parameter
+function getParameter(param) {
+    var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < url.length; i++) {
+        var urlparam = url[i].split('=');
+        if (urlparam[0] == param) {
+            return urlparam[1];
+        }
+    }
 }
