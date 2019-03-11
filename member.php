@@ -3,8 +3,6 @@ session_start();
 require 'src/php/main.php';
 require_once 'src/php/auth.php';
 $position = array("ประธาน", "รองประธาน", "เลขา", "เหรัญญิก", "ปฏิคม", "ประชาสัมพันธ์", "พัสดุ", "กรรมการ");
-$member = new member();
-$advisor = new advisor();
 
 if (isset($_GET['year'])) {
     $year = $_GET['year'];
@@ -19,7 +17,7 @@ if (isset($_GET['year'])) {
 <head><?php require $head_path;?></head>
 
 <body>
-    <section class="navbar"><?php require $navbar_path; ?></section>
+    <section class="navbar"><?php require $navbar_path;?></section>
     <!----------------------------------------------------------------------------------->
     <section class="title">ชมรมคอมพิวเตอร์</section>
     <!----------------------------------------------------------------------------------->
@@ -28,27 +26,27 @@ if (isset($_GET['year'])) {
     <section class="content">
         <div class="content-header member">ทำเนียบชมรมคอมพิวเตอร์</div>
         <form class="member-form" action="member.php" method="get">
-            <input type="number" placeholder="ค้นหาปีการศึกษา (พ.ศ.)" name="year" value="<?php echo (isset($_GET['year']) ? $year : '' );?>" required>
+            <input type="number" placeholder="ค้นหาปีการศึกษา (พ.ศ.)" name="year" value="<?php echo (isset($_GET['year']) ? $year : ''); ?>" required>
             <input type="submit" value="ค้นหา">
         </form>
         <div class="member-section">
-            <?php $advisor->getAdvisor();?>
+            <?php getAdvisor($year);?>
         </div>
         <div class="member-section">
-            <?php $member->getMember($position[0]);?>
+            <?php getMember($year, $position[0]);?>
         </div>
         <div class="member-section">
-            <?php $member->getMember($position[1]);?>
-            <?php $member->getMember($position[2]);?>
-            <?php $member->getMember($position[3]);?>
+            <?php getMember($year, $position[1]);?>
+            <?php getMember($year, $position[2]);?>
+            <?php getMember($year, $position[3]);?>
         </div>
         <div class="member-section">
-            <?php $member->getMember($position[4]);?>
-            <?php $member->getMember($position[5]);?>
-            <?php $member->getMember($position[6]);?>
+            <?php getMember($year, $position[4]);?>
+            <?php getMember($year, $position[5]);?>
+            <?php getMember($year, $position[6]);?>
         </div>
         <div class="member-section">
-            <?php $member->getMember($position[7]);?>
+            <?php $member->getMember($year, $position[7]);?>
         </div>
     </section>
     <!----------------------------------------------------------------------------------->

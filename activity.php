@@ -23,7 +23,11 @@ require_once 'src/php/auth.php';
 </div>
 
 <div class="image-modal">
-    <img src="">
+    <div class="container">
+        <div class="previous-img"><i class="fas fa-angle-left"></i></div>
+        <img src="">
+        <div class="next-img"><i class="fas fa-angle-right"></i></div>
+    </div>
 </div>
 
 

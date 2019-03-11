@@ -1,7 +1,6 @@
 // initialize
 console.log("CSMJU Computer Club");
 console.log("</> by CS #22 : 352 353 354");
-console.log("visit https://github.com/phumoonlight/csmju-compclub for source code");
 // html tag as variable
 var tableTag = "<table>";
 var theadTag = "<thead>";
@@ -11,15 +10,11 @@ var tdTagEnd = "</td>";
 var divTagEnd = "</div>";
 var trTag = "<tr>";
 var trTagEnd = "</tr>";
-
-// hide menu admin
-
 // activity.php initialize
 if ((window.location.href).includes("activity.php")) {
     $("input[name='year']#activity").val("2561");
     getActivityList();
 }
-
 // index.php initialize
 if ((window.location.href).includes("index.php")) {
     $.ajax({
@@ -34,22 +29,21 @@ if ((window.location.href).includes("index.php")) {
             loopIndexImgByRandom(result);
         }
     });
-
-    function loopIndexImgByRandom(result) {
-        var targetElement = $("#index-img"),
-            randomNumber;
-
-        setInterval(function () {
-            randomNumber = Math.floor((Math.random() * parseInt(result.length)));
-            (new Image).src = 'img/' + result[randomNumber].img_path;
-        }, 3500);
-
-        setInterval(function () {
-            targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
-        }, 5000);
-    }
 }
 
+function loopIndexImgByRandom(result) {
+    var targetElement = $("#index-img"),
+        randomNumber;
+
+    setInterval(function () {
+        randomNumber = Math.floor((Math.random() * parseInt(result.length)));
+        (new Image).src = 'img/' + result[randomNumber].img_path;
+    }, 3500);
+
+    setInterval(function () {
+        targetElement.css("background-image", "url(img/" + result[randomNumber].img_path + ")");
+    }, 5000);
+}
 // get parameter function
 function getParameter(param) {
     var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -146,9 +140,8 @@ $("input[name='year']#activity").on("input", function () {
 
 
 function getActivityList() {
-    var input = $("input[name='year']#activity").val();
     var html, academicYearMonthStart;
-
+    var input = $("input[name='year']#activity").val();
 
     if (input.length == 4) {
         $.ajax({
@@ -329,8 +322,6 @@ $(document).on("click", "span.activity-link", function () {
                 $(".activity-modal-year").html(activity_year);
                 $(".activity-modal-content").html(activity_detail);
                 $(".activity-modal-img").html(html);
-
-                activeListenerOpenActivityImgModal();
             }
         }
     });
@@ -365,27 +356,42 @@ $(document).on("click", ".activity-modal", function () {
     $(".modal-container").fadeOut(250);
     $(this).fadeOut(250);
 });
-//------------------------------------------------------------//
 // show activity modal img
 $(document).on("click", ".modal-activity-img", function () {
-    var thisElement, targetElement, attr;
+    var thisElement;
+    var targetElement;
+    var attr;
+
+    $(".modal-activity-img.this-img").removeClass("this-img");
 
     thisElement = $(this);
+    thisElement.addClass("this-img");
     targetElement = $(".image-modal");
 
     attr = thisElement.children().attr('src');
-    targetElement.children().attr('src', attr);
+    targetElement.children().children().attr('src', attr);
     targetElement.fadeIn(250);
 });
-//------------------------------------------------------------//
-// hide activity modal img
-$(document).on("click", ".image-modal", function () {
-    var thisElement;
 
-    thisElement = $(this);
-    thisElement.fadeOut(250);
+// hide activity modal img
+$(document).on("click", ".image-modal", function (e) {
+    var thisElement = $(this);
+
+    if ($(e.target).is('.image-modal .container')) {
+        thisElement.fadeOut(250);
+    }
 });
-//------------------------------------------------------------//
+
+// activity img view previous 
+$(".previous-img").on("click", function () {
+    $(".modal-activity-img.this-img").prev().trigger('click');
+});
+
+// activity img view next
+$(".next-img").on("click", function () {
+    $(".modal-activity-img.this-img").next().trigger('click');
+});
+
 // show admin activity modal for edit
 $("img[data-edit]").on("click", function () {
     var activityID;

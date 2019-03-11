@@ -1,4 +1,5 @@
 <?php
+// path configuration
 $database_path = 'src/php/dbconfig.php';
 $navbar_path = 'src/html/navbar.html';
 $head_path = 'src/html/head.html';
@@ -6,109 +7,82 @@ $menu_path = 'src/html/menu.html';
 $footer_path = 'src/php/footer.php';
 $img_path = 'img/';
 $document_path = 'doc/';
-
-class member
+// -------------------------------------------------------
+function getMember($year, $memberPosition)
 {
-    public function getMember($member_position)
-    {
-        global $database_path, $img_path, $year;
-        require $database_path;
+    global $database_path, $img_path;
+    require $database_path;
 
-        $sql = "SELECT compclub_member.Student_Id, compclub_img.img_path, compclub_member.member_position, student.Name
+    $sql = "SELECT compclub_member.Student_Id, compclub_img.img_path, compclub_member.member_position, student.Name
         FROM compclub_member,student,compclub_img
         WHERE compclub_member.Student_Id = student.Student_Id
-        AND compclub_member.member_position = '$member_position'
+        AND compclub_member.member_position = '$memberPosition'
         AND compclub_member.year = '$year'
         AND compclub_member.img_ID = compclub_img.img_ID
         ORDER BY compclub_member.Student_Id ASC";
 
-        $result = $db->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $student_id = $row['Student_Id'];
-                $member_name = str_replace(' ', "<br>", $row["Name"]);
-                $member_position = $row['member_position'];
-                $path = $img_path . $row['img_path'];
+    $result = $db->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
 
-                $html = "<div class='content-member'>";
-                $html .= "<img src='$path' >";
-                $html .= "<div class='name'>$member_name</div>";
-                $html .= "<div class='id'>$student_id</div>";
-                $html .= "<div class='position'>$member_position</div>";
-                $html .= "</div>";
+            $studentID = $row['Student_Id'];
+            $studentName = str_replace(' ', "<br>", $row["Name"]);
+            $memberPosition = $row['member_position'];
+            $memberImg = $img_path . $row['img_path'];
 
-                echo $html;
-            }
+            $html = "<div class='content-member'>";
+            $html .= "<img src='$memberImg' >";
+            $html .= "<div class='name'> $studentName </div>";
+            $html .= "<div class='id'> $studentID </div>";
+            $html .= "<div class='position'> $memberPosition </div>";
+            $html .= "</div>";
+
+            echo $html;
         }
-        $db->close();
     }
+    $db->close();
 }
 
-class advisor
+function getAdvisor($year)
 {
-    public function getAdvisor()
-    {
-        global $database_path, $img_path, $year;
-        require $database_path;
+    global $database_path, $img_path;
+    require $database_path;
 
-        $sql = "SELECT cv_personal.Name, cv_personal.picturePersonal, compclub_advisor.advisor_ID, compclub_advisor.year
+    $personalImgPath = "http://csmju.jowave.com/applications/CSMJU1/images_personal/";
+
+    $sql = "SELECT cv_personal.Name, cv_personal.picturePersonal, compclub_advisor.advisor_ID, compclub_advisor.year
         FROM compclub_advisor,cv_personal
         WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id
         AND compclub_advisor.year = '$year'
         GROUP BY cv_personal.Personal_Id";
 
-        $result = $db->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $advisor_img = "http://csmju.jowave.com/applications/CSMJU1/images_personal/" . $row['picturePersonal'];
-                $advisor_name = str_replace(' ', "<br>", $row["Name"]);
-                $year = $row["year"];
-                $advisor_id = $row["advisor_ID"];
+    $result = $db->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $advisorImg = $personalImgPath . $row['picturePersonal'];
+            $advisorName = str_replace(' ', "<br>", $row["Name"]);
 
-                $html = "<div class='content-member'>";
-                $html .= "<img src='$advisor_img' >";
-                $html .= "<div class='name'>$advisor_name</div>";
-                $html .= "<div class='position'> อาจารย์ที่ปรึกษา </div>";
-                $html .= "</div>";
+            $html = "<div class='content-member'>";
+            $html .= "<img src='$advisorImg'>";
+            $html .= "<div class='name'> $advisorName </div>";
+            $html .= "<div class='position'> อาจารย์ที่ปรึกษา </div>";
+            $html .= "</div>";
 
-                echo $html;
-            }
+            echo $html;
         }
-
-        $db->close();
     }
+
+    $db->close();
 }
 
-class document
+function getFileExtension($fileName, $fileExtension)
 {
-    static $doc_path = 'doc/';
-    static $document_year;
+    return $fileName . "." . $fileExtension;
+}
 
-    public static function getDocumentList()
-    {
-        global $database_path;
-        require $database_path;
-
-        $sql = "SELECT document_ID , document_name, date FROM document ORDER BY date DESC";
-        $result = $db->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                $document_id = $row["document_ID"];
-                $document_name = $row["document_name"];
-                $document_timestamp = strtotime($row['date']);
-                $document_year = date('Y', $document_timestamp);
-
-                //condition logic : prevent year duplicate
-                if (strtotime(self::$document_year) != strtotime($document_year)) {
-                    self::$document_year = date('Y', $document_timestamp);
-                    echo "<div class='document-list'>$document_year</div>";
-                }
-
-                echo "<a class='document-list' href='" . self::$doc_path . $document_name . "'>$document_name</a>";
-            }
-        }
-        $db->close();
-    }
+function getPathOfFile($fileName, $filePath)
+{
+    return $filePath . $fileName;
 }
 
 class admin
@@ -127,16 +101,6 @@ class admin
             }
         }
     }
-}
-
-function getFileExtension($fileName, $fileExtension)
-{
-    return $fileName . "." . $fileExtension;
-}
-
-function getPathOfFile($fileName, $filePath)
-{
-    return $filePath . $fileName;
 }
 
 class adminMember
@@ -178,7 +142,7 @@ class adminMember
             if ($db->query($sql) === true) {
                 $this->inserted_id = $db->insert_id;
             }
-                
+
         }
 
         return $this;
@@ -302,7 +266,7 @@ class adminAdvisor
 
         $sql = "SELECT advisor_ID, Name, picturePersonal, year
         FROM compclub_advisor,cv_personal
-        WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id 
+        WHERE cv_personal.Personal_Id = compclub_advisor.Personal_Id
         GROUP BY cv_personal.Personal_id";
 
         $result = $db->query($sql);
@@ -556,7 +520,7 @@ class adminActivity
             while (file_exists($filePathFull)) {
                 $FileExtension = pathinfo($fileNameWithExt, PATHINFO_EXTENSION);
                 $FileNameNoExt = pathinfo($fileNameWithExt, PATHINFO_FILENAME);
-                $fileNameWithExt = $fileOriginalName."_$i.".$FileExtension;
+                $fileNameWithExt = $fileOriginalName . "_$i." . $FileExtension;
                 $filePathFull = $document_path . $fileNameWithExt;
                 $i++;
             }
@@ -567,7 +531,7 @@ class adminActivity
                 $db->query($sql);
             }
         }
-        
+
         $db->close();
     }
 }
@@ -595,6 +559,38 @@ function deleteSQL($deleteID)
 }
 
 // ----------- obsolete code ------------------------------------------------
+
+// class document
+// {
+//     static $doc_path = 'doc/';
+//     static $document_year;
+
+//     public static function getDocumentList()
+//     {
+//         global $database_path;
+//         require $database_path;
+
+//         $sql = "SELECT document_ID , document_name, date FROM document ORDER BY date DESC";
+//         $result = $db->query($sql);
+//         if ($result->num_rows > 0) {
+//             while ($row = $result->fetch_assoc()) {
+//                 $document_id = $row["document_ID"];
+//                 $document_name = $row["document_name"];
+//                 $document_timestamp = strtotime($row['date']);
+//                 $document_year = date('Y', $document_timestamp);
+
+//                 //condition logic : prevent year duplicate
+//                 if (strtotime(self::$document_year) != strtotime($document_year)) {
+//                     self::$document_year = date('Y', $document_timestamp);
+//                     echo "<div class='document-list'>$document_year</div>";
+//                 }
+
+//                 echo "<a class='document-list' href='" . self::$doc_path . $document_name . "'>$document_name</a>";
+//             }
+//         }
+//         $db->close();
+//     }
+// }
 
 // class adminDocument
 // {
