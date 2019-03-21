@@ -28,6 +28,7 @@ $admin = new admin();
             <a href="admin.php?admin_menu=member"> ทำเนียบชมรม </a>
             <a href="admin.php?admin_menu=advisor"> อาจารย์ที่ปรึกษา </a>
             <a href="admin.php?admin_menu=activity"> โครงการและกิจกรรม </a>
+            <a href="http://cslabs.jowave.com/5904101391/"> upload video </a>
         </div>
         <?php $admin->GetContent('admin_menu'); ?>
     </section>
