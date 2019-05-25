@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="src/components/Navbar.css" />
+    <link rel="stylesheet" href="src/components/Header.css" />
+    <link rel="stylesheet" href="src/components/RandomlyImgSlide.css" />
+    <title>ชมรมคอมพิวเตอร์</title>
+    <link
+      rel="shortcut icon"
+      href="http://csmju.jowave.com/images/csmju_icon.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        font-family: "Kanit", sans-serif;
+        margin: 0;
+      }
+
+      ::-webkit-scrollbar {
+        width: 0.5vw;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgb(65, 65, 65);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgb(35, 35, 35);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- React.Root -->
+    <div id="root"></div>
+    <!-- React.CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <!-- React.Components -->
+    <script src="src/components/Navbar.js" type="text/babel"></script>
+    <script src="src/components/Header.js" type="text/babel"></script>
+    <script src="src/components/RandomlyImgSlide.js" type="text/babel"></script>
+    <!-- React.App -->
+    <script type="text/babel">
+      console.log('Compclub - React Version - Experimental');
+      class App extends React.Component {
+        render() {
+          return (
+            <React.Fragment>
+              <Navbar />
+              <Header />
+              <RandomlyImgSlide />
+            </React.Fragment>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
