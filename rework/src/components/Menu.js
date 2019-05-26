@@ -1,7 +1,7 @@
 class Menu extends React.Component {
   render() {
     return (
-      <div>
+      <div className='menu-user'>
         <div>Menu user</div>
         <a href="index.php">
           <RightArrow /> 
