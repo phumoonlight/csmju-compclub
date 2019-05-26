@@ -1,0 +1,28 @@
+.menu-user {
+  display: inline-block;
+}
+
+.menu-user > a {
+  display: block;
+  padding: 0.25em;
+  text-decoration: none;
+  color: rgb(150, 150, 150);
+  transition: .5s;
+}
+
+.menu-user > a:hover {
+  color: rgb(25, 75, 100);
+}
+
+.menu-user > a:hover > i {
+  border: solid rgb(25, 75, 100) .1em;
+}
+
+.menu-user > a > i {
+  margin-right: .75em;
+  padding-left: .25em;
+  padding-right: .25em;
+  border: solid rgb(200, 200, 200) .1em;
+  border-radius: 50%;
+  transition: .5s;
+}
