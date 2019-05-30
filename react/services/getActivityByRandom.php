@@ -1,5 +1,5 @@
 <?php
-require '../config/connectDB.php';
+require_once './database.php';
 
 $resultArray = array();
 
@@ -16,5 +16,5 @@ if ($result->num_rows > 0) {
     }
 }
 
-$db->close();
 echo json_encode($resultArray);
+$db->close();

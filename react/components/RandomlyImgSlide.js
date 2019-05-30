@@ -1,38 +1,24 @@
 class RandomlyImgSlide extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      img: 'index.png'
+      img: path.defaultIndexImg
     };
-
-    setInterval(this.callAjax, 2500);
+    setInterval(this.setRandomImg, 5000);
   }
 
-  ajaxCallback = (result) => {
-    this.setState({
-      img: result[0].img_path
-    })
-  }
-
-  callAjax = () => {
-    this.ajax(this.ajaxCallback)
-  }
-
-  ajax = (callback) => {
-    $.ajax({
-      type: "GET",
-      url: "src/php/getAllActivities.php",
-      dataType: "json",
-      success: (result) => {
-        callback(result)
-      }
+  setRandomImg = async () => {
+    const data = await activityApi.getByRandom();
+    await this.setState({
+      img: data.img_path
     });
-  }
+  };
 
   render() {
-    return <div className='random-img-slide'>
-      <img src={`../beta/img/${this.state.img}`}></img>
-    </div>;
+    return (
+      <div className="random-img-slide">
+        <img src={path.dbImg + this.state.img} />
+      </div>
+    );
   }
 }
