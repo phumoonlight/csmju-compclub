@@ -7,26 +7,27 @@ class Menu extends React.Component {
   }
 
   render() {
+    const { index, about, members, activities, admin } = path.compclubPages
     return (
       <div className="menu-user">
         <div>Menu user</div>
-        <a href="index.php">
+        <a href={index}>
           <RightArrow />
           <Text style="text gray" text="หน้าแรก" />
         </a>
-        <a href="about.php">
+        <a href={about}>
           <RightArrow />
           <Text style="text gray" text="เกี่ยวกับชมรม" />
         </a>
-        <a href="member.php">
+        <a href={members}>
           <RightArrow />
           <Text style="text gray" text="ทำเนียบชมรม" />
         </a>
-        <a href="activity.php">
+        <a href={activities}>
           <RightArrow />
           <Text style="text gray" text="โครงการและกิจกรรม" />
         </a>
-        <a href="admin.php">
+        <a href={admin}>
           <RightArrow />
           <Text style="text gray" text="การจัดการชมรม" />
         </a>

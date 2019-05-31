@@ -15,9 +15,10 @@ class RandomlyImgSlide extends React.Component {
   };
 
   render() {
+    const image = path.database.images + this.state.img
     return (
       <div className="random-img-slide">
-        <img src={path.dbImg + this.state.img} />
+        <img src={image} />
       </div>
     );
   }
