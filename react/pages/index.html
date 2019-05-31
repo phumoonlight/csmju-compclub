@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ชมรมคอมพิวเตอร์</title>
+    <link
+      rel="shortcut icon"
+      href="http://csmju.jowave.com/images/csmju_icon.jpg"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Kanit"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+      integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../components/RightArrow.css" />
+    <link rel="stylesheet" href="../components/Text.css" />
+    <link rel="stylesheet" href="../components/Navbar.css" />
+    <link rel="stylesheet" href="../components/Header.css" />
+    <link rel="stylesheet" href="../components/RandomlyImgSlide.css" />
+    <link rel="stylesheet" href="../components/Menu.css" />
+
+    <style>
+      body {
+        font-family: "Kanit", sans-serif;
+        margin: 0;
+      }
+
+      ::-webkit-scrollbar {
+        width: 0.5vw;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: rgb(65, 65, 65);
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgb(35, 35, 35);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- React.Root -->
+    <div id="root"></div>
+    <!-- React.Axios.Jquery.Babel.CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.6/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <!-- Path -->
+    <script src="../config/path.js" type="text/babel"></script>
+    <!-- Api -->
+    <script src="../api/auth.js" type="text/babel"></script>
+    <script src="../api/activity.js" type="text/babel"></script>
+    <!-- React.Components.Minor -->
+    <script src="../components/Text.jsx" type="text/babel"></script>
+    <script src="../components/RightArrow.jsx" type="text/babel"></script>
+    <!-- React.Components.Major -->
+    <script src="../components/MainLayout/MainLayout.jsx" type="text/babel"></script>
+    <script src="../components/Navbar.jsx" type="text/babel"></script>
+    <script src="../components/Header.jsx" type="text/babel"></script>
+    <script src="../components/RandomlyImgSlide.jsx" type="text/babel"></script>
+    <script src="../components/Menu.jsx" type="text/babel"></script>
+    <!-- React.App -->
+    <script type="text/babel">
+      // login.authentication
+      // authApi.auth();
+      console.log('Compclub - React Version - Experimental');
+      class App extends React.Component {
+        render() {
+          return (
+            <React.Fragment>
+              <MainLayout />
+              <RandomlyImgSlide />
+            </React.Fragment>
+          );
+        }
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
