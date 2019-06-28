@@ -1,7 +1,6 @@
 <?php
 session_start();
-require_once '../services/controllers/';
-require_once 'src/php/auth.php';
+// require_once 'src/php/auth.php';
 ?>
 
 <!DOCTYPE html>
