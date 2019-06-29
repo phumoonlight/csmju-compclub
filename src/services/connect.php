@@ -1,12 +1,13 @@
 <?php
 // Database configuration
-$dbHost = "localhost";
-$dbUsername = "jowaveco_csmju";
-$dbPassword = "2nPn74dF";
-$dbName = "jowaveco_csmju";
+// ask teacher to get database setup
+$db_host = "xxx";
+$db_username = "xxx";
+$db_password = "xxx";
+$db_name = "xxx";
 
 // Create database connection
-$db = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
+$db = new mysqli($db_host, $db_username, $db_password, $db_name);
 $db->set_charset("utf8");
 
 // Check connection

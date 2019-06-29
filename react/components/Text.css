@@ -1,8 +1,0 @@
-.text.gray {
-  color: gray;
-  transition: .5s;
-}
-
-.text.hover:hover {
-  color: rgb(50, 75, 100);
-}

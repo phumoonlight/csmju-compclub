@@ -1,6 +1,7 @@
 // initialize
 console.log("CSMJU Computer Club");
 console.log("</> by CS #22 : 352 353 354");
+console.log("reworked version http://csmju.jowave.com/applications/compclub/react/pages/ (Experimental)");
 
 if (window.location.href == "http://csmju.jowave.com/applications/compclub/beta/") {
     window.location.replace("http://csmju.jowave.com/applications/compclub/beta/index.php");
@@ -18,6 +19,7 @@ var trTagEnd = "</tr>";
 
 // index.php initialize
 if ((window.location.href).includes("index.php")) {
+
     var loopIndexImgByRandom = function (result) {
         var randomNumber;
         var targetElement = $("#index-img");
