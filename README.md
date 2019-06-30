@@ -13,7 +13,7 @@
 * code ชุดเก่า [`1.0`](https://github.com/phumoonlight/csmju-compclub/releases) จะอยูใน folder `archive`
 * ถ้าแกะไม่ออก แนะนำให้จัดโครงสร้างใหม่นะ
 
-## Computer Club - Renovate
+## Computer Club - Renovation
 
 จัดแบ่งโครงสร้าง folder structure เตรียมไว้ให้แล้วแบ่งเป็น 
 
