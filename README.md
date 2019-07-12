@@ -15,6 +15,7 @@
 
 ## Computer Club - Renovation
 
+สำหรับ น้องๆ ที่จะเอาไปทำต่อ
 จัดแบ่งโครงสร้าง folder structure เตรียมไว้ให้แล้วแบ่งเป็น 
 
 `libs` 
@@ -33,9 +34,9 @@
 
 `src/utils`
 
-`src` จะเป็นส่วนที่จะลง code
+`src` จะเป็นส่วนที่จะลงเขียน source code เอง
 
-`libs` จะเป็น library ภายนอก เช่น `jquery`, `axios`, `bootstrap`
+`libs` จะเป็น javascript library ภายนอก เช่น `jquery`, `axios`, `bootstrap`
 
 ### ภายใน folder `src`
 
@@ -68,7 +69,7 @@ require_once 'example.html'
 <script src="example.js"></script>
 ```
 
-### การเชื่อมโยงกัน
+### โครงสร้างระบบ (เดิม)
 
 > แบบเดิมดูไม่ออกเหมือนกับว่า เขียนอะไรลงไปเนี่ย???
 
@@ -76,9 +77,10 @@ require_once 'example.html'
 
 อีกเล็กน้อย จะเป็น `pages <--> javaScript <--> php <--> database`
 
-### แบบที่ควรจะเป็น
+### โครงสร้างระบบ แบบที่ควรจะเป็น
 
-`pages <--> javaScript <--> php <--> database`
+              [frontend] <--> [backend]
+`[pages <--> javaScript] <--> [php <--> database]`
 
 `javaScript` สามารถติดต่อกับ php ได้โดย ใช้ `ajax` ของ `jquery` หรือ function ของ `axios` 
 
@@ -87,8 +89,8 @@ require_once 'example.html'
 * เปิดหน้า index 
 * index จะใช้งาน js ตาม `<script>`
 * js จะใช้ `jquery` หรือ `axios` เรียกใช้ `php` 
-* php จะ query ข้อมูลจาก `database` ออกมา แล้วส่งให้ฝั่ง `js` ผ่าน `echo 'data'` 
-* js จะรับข้อมูลที่ได้จาก php แล้วนำไปใช้งานตามสบาย
+* php จะ query ข้อมูลจาก `database` ออกมา แล้วส่งให้ฝั่ง `javascript` ผ่าน `echo 'data'` 
+* `javascript` จะรับข้อมูลที่ได้จาก php แล้วนำไปใช้งานตามสบาย
 
 ### วิธีนี้ จะแยกส่วน `frontend` กับ `backend` ออกอย่างชัดเจน
 
