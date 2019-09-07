@@ -548,7 +548,7 @@ span.activity-link:hover {
 }
 
 div#index-img {
-    background-image: url("../img/index.png");
+    background-image: url("../../database/images/index.png");
     transition: 1.5s;
     height: 35vw;
     width: 100%;
