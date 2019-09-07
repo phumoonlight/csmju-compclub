@@ -1,2 +1,0 @@
-<?php
-// setup contrants here
