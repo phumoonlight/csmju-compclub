@@ -1,7 +1,9 @@
-// initialize
-console.log("CSMJU Computer Club");
-console.log("</> by CS #22 : 352 353 354");
-console.log("reworked version http://csmju.jowave.com/applications/compclub/react/pages/ (Experimental)");
+/**
+ * information logger
+ */
+console.log('CSMJU Computer Club');
+console.log('</> by CS #22 : 352 353 354');
+console.log('Visit Repository https://github.com/phumoonlight/csmju-compclub');
 
 if (window.location.href == "http://csmju.jowave.com/applications/compclub/beta/") {
     window.location.replace("http://csmju.jowave.com/applications/compclub/beta/index.php");
